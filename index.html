@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUID Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            text-align: center;
+            min-width: 450px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .guid {
+            font-size: 18px;
+            margin: 20px 0;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>GUID Generator</h2>
+        <div id="guid" class="guid">Click "Generate" to create a GUID.</div>
+        <button onclick="generateGuid()">Generate GUID</button>
+        <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+
+    <script>
+        // Function to generate GUID
+        function generateGuid() {
+            const guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+            document.getElementById('guid').textContent = guid;
+        }
+
+        // Function to copy the GUID to clipboard
+        function copyToClipboard() {
+            const guidText = document.getElementById('guid').textContent;
+            const copyButton = document.getElementById('copyButton');
+            
+            navigator.clipboard.writeText(guidText).then(function() {
+                copyButton.textContent = 'Copied!';
+                copyButton.disabled = true;
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy to Clipboard';
+                    copyButton.disabled = false;
+                }, 1000);
+            }, function(err) {
+                console.error('Error copying to clipboard: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
